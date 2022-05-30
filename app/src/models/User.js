@@ -14,15 +14,19 @@ class User {
             if (id === client.id && psword === client.psword) {
                 return { success: true };
             }
-            return { success:false, msg:"비밀번호가 틀렸습니다." };
+            return { success:false, msg: "비밀번호가 틀렸습니다." };
         }
-        return { success:false, msg:"존재하지 않는 아이디입니다." };
+        return { success:false, msg: "존재하지 않는 아이디입니다." };
     }
 
-    register() {
+    async register() {
         const client = this.body;
-        const response = UserStorage.save(client);
-        return response;
+        try {
+            const response = await UserStorage.save(client);
+            return response;
+        } catch (err) {
+            return { success: false, msg: err };
+        }
     }
 } 
 
